@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Grade Calculator</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700;800&display=swap');
+            
+            * {
+                font-family: 'Rethink Sans', sans-serif;
+            }
+
+            body {
+                background-color: black;
+                color: white;
+            }
+
+            h1 {
+                margin-left: 10px;
+            }
+            
+            input {
+                outline: 1px solid black;
+                border: 0;
+                border-radius: 20px;
+                padding: 10px;
+                margin-inline: 10px;
+                margin-bottom: 10px;
+            }
+
+            button {
+                margin-left: 10px;
+                outline: 1px solid white;
+                border-radius: 20px;
+                border: 0;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: transparent;
+                cursor: pointer;
+                color: white;
+            }
+
+            button:hover {
+                background-color: #e9e9e9;
+                color: black;
+            }
+
+            #output {
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Grade Calculator</h1>
+        <input placeholder="Number of Sections" id="numSections" type="number">
+        <div id="groups"></div>
+        <button id="calculate">Calculate</button><br>
+        <span id="output">Grade: ---</span>
+        <script defer>
+            const groups = document.getElementById('groups');
+            
+            const numSectionsI = document.getElementById('numSections');
+            let numSections = 0;
+
+            const output = document.getElementById('output');
+
+            const calcBtn = document.getElementById('calculate');
+            
+            numSectionsI.addEventListener('change', function() {
+                numSections = Math.abs(numSectionsI.value);
+                updateScreen();
+            });
+
+            calcBtn.addEventListener('click', function() {
+                calculate();
+            });
+
+            function calculate() {
+                let sectionsSum = 0;
+                let grade = 0;
+
+                for (let i = 0; i < numSections; i++) {
+                    sectionsSum += parseInt(document.getElementById('weight' + i).value);
+                }
+                
+                for (let j = 0; j < numSections; j++) {
+                    grade += (parseInt(document.getElementById('weight' + j).value) / sectionsSum) * (parseInt(document.getElementById('score' + j).value) / parseInt(document.getElementById('total' + j).value));
+                }
+
+                grade *= 100;
+
+                output.innerText = "Grade: " + grade + "%"
+            }
+
+            function updateScreen() {
+                groups.innerHTML = "";
+                for (let i = 0; i < numSections; i++) {
+                    let div = document.createElement('div');
+                    div.classList.add('group');
+
+                    let score = document.createElement('input');
+                    score.placeholder = "Score in section";
+                    score.id = "score" + i;
+                    score.type = "number";
+                    div.appendChild(score);
+
+                    let span1 = document.createElement('span');
+                    span1.innerText = " out of ";
+                    div.appendChild(span1);
+
+                    let totalpts = document.createElement('input');
+                    totalpts.placeholder = "Total points in section";
+                    totalpts.id = "total" + i;
+                    totalpts.type = "number";
+                    div.appendChild(totalpts);
+
+                    let span2 = document.createElement('span');
+                    span2.innerText = " in a section weighted ";
+                    div.appendChild(span2);
+
+                    let weight = document.createElement('input');
+                    weight.placeholder = "Section weight: % from 0 - 100";
+                    weight.id = "weight" + i;
+                    weight.type = "number";
+                    div.appendChild(weight);
+
+                    groups.appendChild(div);
+                }
+            }
+        </script>
+    </body>
+</html>
