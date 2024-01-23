@@ -79,11 +79,11 @@
                 let grade = 0;
 
                 for (let i = 0; i < numSections; i++) {
-                    sectionsSum += parseInt(document.getElementById('weight' + i).value);
+                    sectionsSum += parseFloat(document.getElementById('weight' + i).value);
                 }
                 
                 for (let j = 0; j < numSections; j++) {
-                    grade += (parseInt(document.getElementById('weight' + j).value) / sectionsSum) * (parseInt(document.getElementById('score' + j).value) / parseInt(document.getElementById('total' + j).value));
+                    grade += (parseFloat(document.getElementById('weight' + j).value) / sectionsSum) * (parseFloat(document.getElementById('score' + j).value) / parseFloat(document.getElementById('total' + j).value));
                 }
 
                 grade *= 100;
